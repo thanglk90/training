@@ -10,6 +10,7 @@ class Controller{
         $this->_arrParams = $arrParams;
         $this->setViewObj();
         $this->setModelObj();
+        $this->setTemplateObj($this);
     }
 
     function setViewObj(){
@@ -35,8 +36,8 @@ class Controller{
         return $this->_modelObj;
     }
 
-    function setTemplateObj(){
-        $this->_templateObj = new Template();
+    function setTemplateObj($controllerObj){
+        $this->_templateObj = new Template($controllerObj);
     }
 
     function getTemplateObj(){

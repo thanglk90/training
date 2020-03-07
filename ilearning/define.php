@@ -31,13 +31,14 @@ define('VIEW_DEFAULT_PATH',         DEFAULT_PATH . 'View' .DS);
 define('LIBS_PATH',             ROOT_PATH . 'Libs' .DS);
 
 /*  ============= ROOT - PUBLIC PATH============= */
-define('PUBLIC_PATH',           ROOT_PATH . 'Public' .DS);
-define('TEMPLATE_PATH',         PUBLIC_PATH . 'Template' .DS);
+define('PUBLIC_PATH',                    ROOT_PATH . 'Public' .DS);
+define('TEMPLATE_PATH',                  PUBLIC_PATH . 'Template' .DS);
 define('TEMPLATE_DEFAULT_PATH',          TEMPLATE_PATH . 'default' .DS);
 define('TEMPLATE_CN_PATH',               TEMPLATE_PATH . 'cn_version' .DS);
 
 /*  ============= PUBLIC URL============= */
-define('PUBLIC_URL',            DS . 'Public' . DS);
+define('ROOT_URL',              DS . 'ilearning' . DS);
+define('PUBLIC_URL',            ROOT_URL . 'Public' . DS);
 
 /*  ============= PUBLIC - CSS - JS - IMAGES URL============= */
 define('PUB_CSS_URL',           PUBLIC_URL . 'css' .DS);
