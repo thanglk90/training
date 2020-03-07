@@ -15,7 +15,7 @@ class Bootstrap{
                 $this->showError($this->_errType);
             }else{
                 $controllerFileName = $this->_params['controller'] . 'Controller.php';
-                $file = MODULE_PATH . $this->_params['module'] . SEPARATOR . "Controller" . SEPARATOR . $controllerFileName;
+                $file = MODULE_PATH . $this->_params['module'] . DS . "Controller" . DS . $controllerFileName;
 
                 if(file_exists($file)){
                     require_once $file;

@@ -21,8 +21,8 @@ class Controller{
     }
 
     function setModelObj(){
-        echo $modelName = ucfirst($this->_arrParams['action']) . 'Model';
-        echo $file = MODULE_PATH . $this->_arrParams['module'] . SEPARATOR . 'Model' . SEPARATOR . $modelName . '.php';
+        $modelName = ucfirst($this->_arrParams['action']) . 'Model';
+        $file = MODULE_PATH . $this->_arrParams['module'] . DS . 'Model' . DS . $modelName . '.php';
         if(file_exists($file)){
             require_once $file;
             $this->_modelObj = new $modelName();

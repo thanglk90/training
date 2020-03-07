@@ -8,8 +8,8 @@ class View {
     }
 
     function render($viewFile){
-        echo "<h1 style='color: red; font-size: 15px;'>Admin - View - " . __METHOD__ . "</h1>";
-        $file = ADMIN_PATH . 'View' . SEPARATOR . $viewFile . '.php';
+        //echo "<h1 style='color: red; font-size: 15px;'>Admin - View - " . __METHOD__ . "</h1>";
+        $file = ADMIN_PATH . 'View' . DS . $viewFile . '.php';
         if(file_exists($file)){
             require_once $file;
         }else{
