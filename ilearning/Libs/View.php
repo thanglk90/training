@@ -3,6 +3,8 @@
 class View {
     protected $_module;
     protected $_templatePath;
+    protected $_fileCss;
+    protected $_fileJs;
 
     function __construct($module){
         $this->_module = $module;
@@ -32,21 +34,25 @@ class View {
         return $this->_templatePath;
     }
 
-    function createCssLink($file){
-        $str = "<link rel='stylesheet' type='text/css' href=$file>";
-        return $str;
+    function createCssLink($path, $file){
+        $xhtml = "";
+        if(count($file) > 0){
+            foreach($file as $val){
+               $xhtml .= '<link rel=\'stylesheet\' type=\'text/css\' href=\'' . $path. DS . $val . '\'>';
+            }
+            $this->_fileCss .= $xhtml;
+        }
+        return $xhtml;
     }
 
     function createJsLink($path, $file){
-        echo '<pre>';
-        print_r($file);
-        echo '<pre>';
 
         $xhtml = "";
         if(count($file) > 0){
             foreach($file as $val){
                 $xhtml .= '<script src=' . $path  . DS . $val . '></script>';
             }
+            $this->_fileJs .= $xhtml;
         }
         return $xhtml;
     }

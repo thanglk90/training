@@ -1,3 +1,3 @@
 window.onload = function(){
-    alert('ok 1111');
+    //alert('ok 12222');
 };

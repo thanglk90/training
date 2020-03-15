@@ -8,7 +8,7 @@ class Template{
     private $_controllerObj;
 
     function __construct($obj){
-        echo "<h1 style='color: red; font-size: 15px;'>" . __METHOD__ . "</h1>";
+        //echo "<h1 style='color: red; font-size: 15px;'>" . __METHOD__ . "</h1>";
         $this->_controllerObj = $obj;
     }
 
@@ -46,7 +46,7 @@ class Template{
             $fileCss        = $config['fileCss'];
             
             $viewObj = $this->_controllerObj->getViewObj();
-            $viewObj->cssFile = $viewObj->createCssLink('file');
+            $viewObj->cssFile = $viewObj->createCssLink(TEMPLATE_URL . $this->_folderTemplate . DS . $dirCss, $fileCss);
  
             $viewObj->jsFile = $viewObj->createJsLink(TEMPLATE_URL . $this->_folderTemplate . DS . $dirJs, $fileJs);
             
