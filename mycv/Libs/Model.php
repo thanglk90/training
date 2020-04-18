@@ -12,11 +12,12 @@ class Model {
     function __construct(){
         //echo "<h1 style='color: red; font-size: 15px;'>" . __METHOD__ . "</h1>";
 
-        if(!empty($this->_host) && !empty($this->_database) && !empty($this->_username) && isset($this->_pass) && !empty($this->_table)){
+        if(!empty($this->_host) && !empty($this->_database) && !empty($this->_username) && isset($this->_pass)){
             $db = 'mysql:host=' . $this->_host . ';dbname=' . $this->_database;
             try{
                 $this->_conn = new PDO($db, $this->_username, $this->_pass);
                 $this->_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
             }catch(PDOException $e){
                 echo "Connection fails: " . $e->getMessage();
             }
@@ -43,9 +44,9 @@ class Model {
     }
 
     function addItem($data = array()){
-        /*$form = [
-                //'id' => null,
-                'name' => 'test1'];*/
+        /*
+            $data = array('name' => 'test0417', 'user_group' => "15", 'ordering' => '65');
+        */
         if(count($data) > 0){
             $strPro = array();
             $arrVal = $this->createPlaceHolderArray($data, ":key");
@@ -55,7 +56,9 @@ class Model {
 
             $strPro = implode($strPro, ",");
             $strVal = implode($arrVal, ",");
-            $sql = 'INSERT INTO user (' . $strPro .  ') values (' . $strVal  .')';
+
+            // INSERT INTO user (name,user_group,ordering) values (:name,:user_group,:ordering)
+            echo $sql = 'INSERT INTO ' . $this->_table . '(' . $strPro .  ') values (' . $strVal  .')';
             $stmt = $this->_conn->prepare($sql);
             $stmt->execute($data);
             return $stmt->rowCount();
@@ -66,7 +69,7 @@ class Model {
         if(count($data) > 0){
             $arr = array();
             foreach($data as $key => $val){
-                $arr[] = $key . ' = ' . $val;
+                $arr[] = $key . ' = \'' . $val . '\'';
             }
             $str = implode($arr, ' AND ');
         }
@@ -79,6 +82,8 @@ class Model {
             $arr = $this->createPlaceHolderArray($data, 'key:key');
             $strValue = implode($arr, ", ");
             $Where = $this->createWhereSQL($where);
+
+            // UPDATE user SET name = :name, user_group = :user_group, ordering = :ordering WHERE name = test0417 AND user_group = 15
             $sql = 'UPDATE ' . $this->_table . " SET $strValue WHERE $Where"; 
             $stmt = $this->_conn->prepare($sql);
             $stmt->execute($data);
@@ -96,6 +101,7 @@ class Model {
 
     function deleteItem($where = array()){
         if(count($where) > 0){
+            // DELETE FROM user WHERE name = :name AND user_group = :user_group
             $sql = $this->createDeleteSQL($where);
             $stmt = $this->_conn->prepare($sql);
             $stmt->execute($where);

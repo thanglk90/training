@@ -59,7 +59,7 @@ class Bootstrap{
                 if($errType['ip'] == "::1"){
                     $this->_controllerObj->showError($errType);
                 }else{
-                    $this->_controllerObj->showError(array('notFound' => true));
+                    
                 }
                 
             }

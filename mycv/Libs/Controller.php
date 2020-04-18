@@ -22,9 +22,10 @@ class Controller{
     }
 
     function setModelObj(){
-        $modelName = ucfirst($this->_arrParams['action']) . 'Model';
+        $modelName = ucfirst($this->_arrParams['controller']) . 'Model';
         $file = MODULE_PATH . $this->_arrParams['module'] . DS . 'Model' . DS . $modelName . '.php';
         if(file_exists($file)){
+            //echo "<h1 style='color: red; font-size: 15px;'>" . __METHOD__ . "</h1>";
             require_once $file;
             $this->_modelObj = new $modelName();
         }

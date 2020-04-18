@@ -1,0 +1,113 @@
+:root{
+    --col-1: calc(100% / 12 * 1);
+    --col-2: calc(100% / 12 * 2);
+    --col-3: calc(100% / 12 * 3);
+    --col-4: calc(100% / 12 * 4);
+    --col-5: calc(100% / 12 * 5);
+    --col-6: calc(100% / 12 * 6);
+    --col-7: calc(100% / 12 * 7);
+    --col-8: calc(100% / 12 * 8);
+    --col-9: calc(100% / 12 * 9);
+    --col-10: calc(100% / 12 * 10);
+    --col-11: calc(100% / 12 * 11);
+    --col-12: calc(100% / 12 * 12);
+    
+}
+.container-fluid{
+    width: 100%;
+}
+
+.container{
+    width: 1240px;
+    margin: 0 auto;
+}
+
+.container-960{
+    width: 960px;
+    margin: 0 auto;
+}
+
+
+/* START - GRID FOR EXTRA LARGE - PC >= 1200*/
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -16px;
+    margin-right: -16px;
+}
+
+.col{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.col-xl-0,
+.col-xl-1,
+.col-xl-2,
+.col-xl-3,
+.col-xl-4,
+.col-xl-5,
+.col-xl-6,
+.col-xl-7,
+.col-xl-8,
+.col-xl-9,
+.col-xl-10,
+.col-xl-11,
+.col-xl-12{
+    display: block;
+}
+
+.col.col-xl-0{
+    display: none;
+}
+.col.col-xl-1{
+    flex: 0 0 var(--col-1);
+    max-width: var(--col-1);
+}
+.col.col-xl-2{
+    flex: 0 0 var(--col-2);
+    max-width: var(--col-2);
+}
+.col.col-xl-3{
+    flex: 0 0 var(--col-3);
+    max-width: var(--col-3);
+}
+.col.col-xl-4{
+    flex: 0 0 var(--col-4);
+    max-width: var(--col-4);
+}
+.col.col-xl-5{
+    flex: 0 0 var(--col-5);
+    max-width: var(--col-5);
+}
+.col.col-xl-6{
+    flex: 0 0 var(--col-6);
+    max-width: var(--col-6);
+}
+.col.col-xl-7{
+    flex: 0 0 var(--col-7);
+    max-width: var(--col-7);
+}
+.col.col-xl-8{
+    flex: 0 0 var(--col-8);
+    max-width: var(--col-8);
+}
+.col.col-xl-9{
+    flex: 0 0 var(--col-9);
+    max-width: var(--col-9);
+}
+.col.col-xl-10{
+    flex: 0 0 var(--col-10);
+    max-width: var(--col-10);
+}
+.col.col-xl-11{
+    flex: 0 0 var(--col-11);
+    max-width: var(--col-11);
+}
+.col.col-xl-12{
+    flex: 0 0 var(--col-12);
+    max-width: var(--col-12);
+}
+
+/* END - GRID FOR EXTRA LARGE - PC >= 1200*/

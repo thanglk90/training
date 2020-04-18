@@ -1,0 +1,70 @@
+.body-wrapper {
+    padding: 30px;
+}
+
+.table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid black;
+    height: 30px;
+}
+
+.table a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.formNumber {
+    width: 3%;
+}
+
+.formCkb {
+    width: 3%;
+}
+
+.ckb{
+    width: 80%;
+    height: 80%;
+    background-color: red;
+}
+
+.formName {
+    width: 13%;
+}
+
+.formStatus {
+    width: 7%;
+}
+
+.formACP {
+    width: 7%;
+}
+
+.formOrdering {
+    width: 7%;
+}
+
+.formOrdering input{
+    width: 35%;
+}
+
+.formTime {
+    width: 12%;
+}
+
+.formBy {
+    width: 10%;
+}
+
+.formID {
+    width: 5%;
+}
+
+.form-group-add > .table{
+    width: 400px;
+    border: none;
+}

@@ -48,7 +48,7 @@ define('PUB_IMG_URL',           PUBLIC_URL . 'images' .DS);
 /*  ============= TEMPLATE URL============= */
 define('TEMPLATE_URL',          PUBLIC_URL . 'Template' .DS);
 define('DEFAULT_URL',           TEMPLATE_URL . 'default' .DS);
-define('CN_URL',                TEMPLATE_URL . 'cn_version' .DS);
+define('ADMIN_URL',                TEMPLATE_URL . 'admin' .DS);
 
 
 

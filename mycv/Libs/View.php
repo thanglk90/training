@@ -14,7 +14,7 @@ class View {
         $path = ADMIN_PATH . 'View' . DS . $viewFile . '.php';
         if($full == true){
             if(file_exists($path)){
-                $this->_fileInclude = $path;
+                $this->_fileInclude = $viewFile;
                 require_once $this->_templatePath;
             }else{
                 echo "Path file not exists";
