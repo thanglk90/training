@@ -1,0 +1,238 @@
+:root{
+    --text-color-black: #111;
+}
+
+.site-wrapper{
+    min-height: 150vh;
+    background: #EEE;
+}
+
+.site-header{
+    height: 11rem;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+
+}
+
+.site-header .header_top{
+    border-bottom: 1px solid #EEE;
+}
+
+.site-header .header_list{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.site-header .header_list .header_listItem{
+    text-decoration: none;
+}
+
+.site-header .header_list .header_listItem a{
+    text-decoration: none;
+    color: #588d3f;
+    display: block;
+    border-bottom-color: transparent ;
+    border-bottom-style: dashed;
+    border-bottom-width: 0.1rem;
+}
+
+.site-header .header_list .header_listItem a:hover{
+    color: #69aa00;
+    font-weight: 400;
+    border-bottom-color: #588d3f;
+}
+
+.site-header .header_list.header_list-userLogin{
+    justify-content: flex-end;
+}
+
+.site-header .header_list.header_list-userLogin a{
+    margin-left: 1.5rem;
+}
+
+.site-header .header_bottom .header_brand{
+    width: 13.4rem;
+    height: 6.4rem;
+}
+
+.site-header .header_bottom .header_brand img{
+    width: 100%;
+}
+
+.site-header .header_bottom .header_list-courses .header_listItem{
+    margin: -1.2rem;
+    position: relative;
+}
+
+.site-header .header_bottom .header_list-courses .header_listItem a{
+    color: var(--text-color-black);
+    font-weight: 600;
+    font-size: 1.8rem;
+    height: 6rem;
+    padding: 0.8rem 1.6rem;
+    line-height: 6rem;
+}
+
+.site-header .header_bottom .header_list-courses .header_listItem a:hover{
+    background: #69aa00;
+    color: #fff;
+}
+
+.site-header .header_bottom .header_list-courses .header_listItem span.sub{
+    position: absolute;
+    top: 10%;
+    left: 27%;
+    min-width: 3rem;
+    height: 1.6rem;
+    background-color: red;
+    color: #fff;
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+    padding: 0.1rem;
+    text-align: center;
+}
+
+
+/* MODAL HEADER FORM*/
+.header_modal-form{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.header_modal-form-overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.header_modal-body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80rem;
+    height: 60rem;
+    max-height: 60rem;
+    background: rgb(240, 232, 232);
+    z-index: 3;
+    
+}
+
+.header_modal-form-register-img{
+    height: 60rem;
+}
+
+.header_modal-form-register-img img{
+    width: 100%;
+    height: 60rem;
+}
+
+.header_modal-form-register-body{
+    padding-top: 10rem;
+}
+
+.header_modal-form-register-body .form-label,
+.header_modal-form-register-body .form-input input,
+.header_modal-form-register-body .form-input select{
+    width: 80%;
+    height: 2.5rem;
+    margin-bottom: 1.2rem;
+    border-radius: 0.3rem;
+    outline-style: none;
+}
+
+.header_modal-form-register-body .form-input input,
+.header_modal-form-register-body .form-input select{
+    box-shadow: inset 0 2px 5px 5px rgba( 0, 0, 0, 0.1);
+}
+
+.header_modal-form-register-body .form-input .agree-box{
+    font-size: 1.2rem;
+    width: 80%;
+    display: inline-block;
+    position: relative;
+}
+
+.header_modal-form-register-body .form-input input.agreeCkb{
+    width: initial;
+    box-shadow: unset;
+    position: absolute;
+    top: -30%;
+    left: -2%;
+}
+
+.header_modal-form-register-body .form-input .agree-box span{
+    padding-left: 2rem;
+}
+
+.header_modal-form-register-body .form-input .agree-box a{
+    color: #588d3f;
+}
+
+.header_modal-form-register-body .form-input .register-submit-btn{
+
+}
+
+.header_modal-form-register-body .form-input .register-submit-btn .register-btn{
+    box-shadow: initial;
+    height: 3.5rem;
+    border: 1px solid #588d3f;
+    background-color: #47a01d;
+    color: #fff;
+    font-size: 2rem;
+}
+
+.header_modal-form-register-body .form-input .register-submit-btn .register-btn:hover{
+    background-color: #5cb731;
+    color: #fff;
+    font-size: 2.2rem;
+}
+
+.header_modal-form-register-body .quick-register{
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+    margin-top: 1rem;
+}
+
+.header_modal-form-register-body .quick-register div{
+    padding: 0.5rem 1.5rem;
+    margin-left: 0.2rem;
+    color: #fff;
+    border-radius: 0.5rem;
+}
+
+.header_modal-form-register-body .quick-register div a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.header_modal-form-register-body .quick-register div.fb-register{
+    background-color: #3b5998;
+    
+
+}
+
+.header_modal-form-register-body .quick-register div.gg-register{
+    background-color: #dd4b39;
+}
+
+.header_modal-form-register-body .quick-register span{
+    margin-left: 0.2rem;
+}
+
+
+
