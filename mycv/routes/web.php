@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('me', 'meController@index');
+
 $prefixAdmin = config('zvn.url.prefix_admin');
 
 Route::group(['prefix' => $prefixAdmin], function () {

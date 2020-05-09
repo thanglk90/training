@@ -15,12 +15,12 @@ class SliderController extends Controller
      */
     public function index(Request $request)
     {
-        $tables = DB::select('SHOW TABLES');
-        foreach($tables as $key => $table){
-            echo '<pre>';
-            print_r($table);
-            echo '<pre>';
-        }
+        // $tables = DB::select('SHOW TABLES');
+        // foreach($tables as $key => $table){
+        //     echo '<pre>';
+        //     print_r($table);
+        //     echo '<pre>';
+        // }
         return view('admin.slider.index');
     }
 }
