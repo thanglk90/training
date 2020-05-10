@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use App\Models\SliderModel as MainModel;
+use Illuminate\Support\Facades\View;
 
 class SliderController extends Controller
 {
@@ -13,14 +14,19 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    private $pathViewController = 'admin.slider.';
+    private $controllerName = 'slider';
+    private $model;
+
+    public function __construct(){
+        $this->model = new MainModel();
+        View::share('controllerName', $this->controllerName);
+    }
+
     public function index(Request $request)
     {
-        // $tables = DB::select('SHOW TABLES');
-        // foreach($tables as $key => $table){
-        //     echo '<pre>';
-        //     print_r($table);
-        //     echo '<pre>';
-        // }
-        return view('admin.slider.index');
+        $items = $this->model->listItems(null, ['task' => 'admin-list-items']);
+        return view($this->pathViewController . 'index');
     }
 }
