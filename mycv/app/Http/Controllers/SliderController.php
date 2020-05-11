@@ -15,7 +15,7 @@ class SliderController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $pathViewController = 'admin.slider.';
+    private $pathViewController = 'admin.pages.slider.';
     private $controllerName = 'slider';
     private $model;
 
@@ -27,6 +27,8 @@ class SliderController extends Controller
     public function index(Request $request)
     {
         $items = $this->model->listItems(null, ['task' => 'admin-list-items']);
-        return view($this->pathViewController . 'index');
+        return view($this->pathViewController . 'index', [
+            'items' => $items
+        ]);
     }
 }

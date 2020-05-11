@@ -12,8 +12,12 @@ class DashboardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    private $pathViewController = 'admin.pages.dashboard.';
+    private $controllerName = 'slider';
+    private $model;
+
     public function index(Request $request)
     {
-        return view('admin.dashboard.index');
+        return view($this->pathViewController . 'index');
     }
 }
