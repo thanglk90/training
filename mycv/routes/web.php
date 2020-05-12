@@ -44,7 +44,7 @@ Route::group(['prefix' => $prefixAdmin], function () {
             ['as' => $controllerName. '/delete', 'uses' => $controller . 'delete']
         );
         Route::get('change-status-{active}/{id}', 
-            ['as' => $controllerName. '/change-status', 'uses' => $controller . 'status']
+            ['as' => $controllerName. '/status', 'uses' => $controller . 'status']
         );
     });
 
