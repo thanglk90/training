@@ -61,14 +61,7 @@
                             <input type="hidden" name="search_field" value="all">
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <select name="select_filter" class="form-control"
-                                data-field="level">
-                            <option value="default" selected="selected">Select Level</option>
-                            <option value="admin">Admin</option>
-                            <option value="member">Member</option>
-                        </select>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -90,7 +83,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             @include('admin.templates.x_title', ['title' => "Phân trang"])
-            @include('admin.templates.pagination_zvn', ['paginator' => $items])
+            @include('admin.templates.pagination')
         </div>
     </div>
 </div>

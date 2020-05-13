@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class SliderModel extends Model
 {
@@ -18,6 +19,19 @@ class SliderModel extends Model
                         ->orderBy('id', 'desc')
                         ->paginate(($params['pagination']['totalItemsPerPage']));
                         //->get();
+            
+        }
+        
+        return $result;
+    }
+
+    public function countItems($params = null, $options = null){
+        $result = '';
+        if($options['task'] == 'admin-count-items'){
+            $result = self::select('status', DB::raw('count(id) as total'))
+                        ->groupBy('status')
+                        ->get()
+                        ->toArray();
             
         }
         
