@@ -4,6 +4,40 @@ namespace App\Helper;
 use Config;
 
 class Template {
+
+    public static function showButtonFilter($controllerName, $itemsStatusCount, $currentFilterStatus){
+        $xhtml = '';
+        $tmplStatus = Config::get('zvn.template.status');
+
+        if(count($itemsStatusCount) > 0){
+            $all = [
+                'status' => 'all',
+                'total'  => array_sum(array_column($itemsStatusCount, 'total'))
+            ];
+            array_unshift($itemsStatusCount, $all);
+
+            foreach($itemsStatusCount as $item){
+                $statusValue = array_key_exists($item['status'], $tmplStatus) ? $item['status'] : 'default';
+                $currentTemplateStatus = $tmplStatus[$statusValue];
+                $link = route($controllerName) . '?filter_status=' . $statusValue;
+                $class = ($statusValue == $currentFilterStatus) ? 'btn-danger' : 'btn-primary';
+                
+                $xhtml .= sprintf('<a href="%s" type="button" 
+                                        class="btn %s">
+                                        %s
+                                        <span class="badge bg-white">%s</span>
+                                    </a>',
+                                    $link, $class, $currentTemplateStatus['name'], $item['total']
+                                );
+            }
+        }
+        return $xhtml;
+
+        // <a href="?filter_status=all" type="button" class="btn btn-primary">All <span class="badge bg-white">4</span></a>
+        // <a href="?filter_status=active" type="button" class="btn btn-success">Active <span class="badge bg-white">2</span></a>
+        // <a href="?filter_status=inactive" type="button" class="btn btn-success">Inactive <span class="badge bg-white">2</span></a>
+    }
+
     public static function showItemHistory($by, $time){
         $xhtml = sprintf('<p><i class="fa fa-user"></i> %s</p>
                             <p><i class="fa fa-clock-o"></i> %s</p>', $by, date(Config::get('zvn.format.long_time'), strtotime($time)));
@@ -12,18 +46,17 @@ class Template {
 
     public static function showItemStatus($controllerName, $id, $status){
 
-        $tmplStatus = [
-            'active' => ['name' => 'Kích hoạt', 'class' => "btn-success"],
-            'inactive' => ['name' => 'Chưa kích hoạt', 'class' => "btn-info"]
-        ];
+        $tmplStatus = Config::get('zvn.template.status');
 
-        $currentStatus = $tmplStatus[$status];
+        $statusValue = array_key_exists($status, $tmplStatus) ? $status : 'default';
+
+        $currentTemplateStatus = $tmplStatus[$statusValue];
         $link = route($controllerName . '/status', ['active' => $status, 'id' => $id]);
 
         $xhtml = sprintf(
                         '<a href="%s" 
                         type="button" class="btn btn-round %s">%s</a>', 
-                        $link, $currentStatus['class'], $currentStatus['name']);
+                        $link, $currentTemplateStatus['class'], $currentTemplateStatus['name']);
 
         return $xhtml;
 

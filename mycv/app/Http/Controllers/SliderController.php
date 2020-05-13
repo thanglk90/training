@@ -28,11 +28,14 @@ class SliderController extends Controller
 
     public function index(Request $request)
     {
-        $countByStatus = $this->model->countItems(null, ['task' => 'admin-count-items']);
+        $this->params['filter']['status'] = $request->input('filter_status', 'all');
+        $itemsStatusCount = $this->model->countItems(null, ['task' => 'admin-count-items-group-by-status']);
         $items = $this->model->listItems($this->params, ['task' => 'admin-list-items']);
         
         return view($this->pathViewController . 'index', [
+            'params' => $this->params,
             'items' => $items,
+            'itemsStatusCount' => $itemsStatusCount
             
         ]);
     }
