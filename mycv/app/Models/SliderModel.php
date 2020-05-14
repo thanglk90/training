@@ -15,12 +15,15 @@ class SliderModel extends Model
     public function listItems($params, $options = null){
         $result = '';
         if($options['task'] == 'admin-list-items'){
-           
-            $result = self::select('id','name','description','link','thumb','created','created_by','modified','modified_by','status')
-                        ->orderBy('id', 'desc')
-                        ->paginate(($params['pagination']['totalItemsPerPage']));
-                        //->get();
             
+            $query = $this->select('id','name','description','link','thumb','created','created_by','modified','modified_by','status');
+                        
+            if(isset($params['filter']['status']) && $params['filter']['status'] !== 'all'){
+                $query->where('status', '=', $params['filter']['status']);
+            }
+            
+            $result = $query->orderBy('id', 'desc')
+                            ->paginate(($params['pagination']['totalItemsPerPage']));
         }
         
         return $result;

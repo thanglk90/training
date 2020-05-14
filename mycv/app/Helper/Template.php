@@ -5,6 +5,41 @@ use Config;
 
 class Template {
 
+    public static function showAreaSearch($controllerName){
+        $tmplField = Config::get('zvn.template.search');
+
+        $fieldInController = [
+            'default' => ['all', 'id'],
+            'slider' => ['all', 'id', 'username'],
+        ];
+        $controllerName = array_key_exists($controllerName, $fieldInController) ? $controllerName : 'default';
+        $xhtmlField = '';
+        foreach($fieldInController[$controllerName] as $field){
+            $xhtmlField .= sprintf('<li><a href="#" class="select-field" data-field="%s">%s</a></li>',
+                                    $field, $tmplField[$field]['name']);
+        }
+
+        $xhtml = sprintf('<div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button"
+                                        class="btn btn-default dropdown-toggle btn-active-field"
+                                        data-toggle="dropdown" aria-expanded="false">
+                                    Search by All <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                   %s
+                                </ul>
+                            </div>
+                            <input type="text" class="form-control" name="search_value" value="">
+                            <span class="input-group-btn">
+                                <button id="btn-clear" type="button" class="btn btn-success" style="margin-right: 0px">Xóa tìm kiếm</button>
+                                <button id="btn-search" type="button" class="btn btn-primary">Tìm kiếm</button>
+                            </span>
+                            <input type="hidden" name="search_field" value="all">
+                        </div>', $xhtmlField);
+        return $xhtml;
+    }
+
     public static function showButtonFilter($controllerName, $itemsStatusCount, $currentFilterStatus){
         $xhtml = '';
         $tmplStatus = Config::get('zvn.template.status');
