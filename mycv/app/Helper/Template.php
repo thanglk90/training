@@ -5,42 +5,43 @@ use Config;
 
 class Template {
 
-    public static function showAreaSearch($controllerName){
+    public static function showAreaSearch($controllerName, $paramsSearch){
         $tmplField = Config::get('zvn.template.search');
 
-        $fieldInController = [
-            'default' => ['all', 'id'],
-            'slider' => ['all', 'id', 'username'],
-        ];
+        $fieldInController = Config::get('zvn.config.search');
         $controllerName = array_key_exists($controllerName, $fieldInController) ? $controllerName : 'default';
         $xhtmlField = '';
         foreach($fieldInController[$controllerName] as $field){
             $xhtmlField .= sprintf('<li><a href="#" class="select-field" data-field="%s">%s</a></li>',
                                     $field, $tmplField[$field]['name']);
         }
+        // echo '<pre>';
+        // print_r($paramsSearch);
+        // echo '<pre>';
+        $searchField = (in_array($paramsSearch['field'], $fieldInController[$controllerName])) ? $paramsSearch['field'] : 'all';
 
         $xhtml = sprintf('<div class="input-group">
                             <div class="input-group-btn">
                                 <button type="button"
                                         class="btn btn-default dropdown-toggle btn-active-field"
                                         data-toggle="dropdown" aria-expanded="false">
-                                    Search by All <span class="caret"></span>
+                                   %s <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                    %s
                                 </ul>
                             </div>
-                            <input type="text" class="form-control" name="search_value" value="">
+                            <input type="text" class="form-control" name="search_value" value="%s">
                             <span class="input-group-btn">
                                 <button id="btn-clear" type="button" class="btn btn-success" style="margin-right: 0px">Xóa tìm kiếm</button>
                                 <button id="btn-search" type="button" class="btn btn-primary">Tìm kiếm</button>
                             </span>
-                            <input type="hidden" name="search_field" value="all">
-                        </div>', $xhtmlField);
+                            <input type="hidden" name="search_field" value="%s">
+                        </div>', $tmplField[$searchField]['name'], $xhtmlField, $paramsSearch['value'], $searchField);
         return $xhtml;
     }
 
-    public static function showButtonFilter($controllerName, $itemsStatusCount, $currentFilterStatus){
+    public static function showButtonFilter($controllerName, $itemsStatusCount, $currentFilterStatus, $paramsSearch){
         $xhtml = '';
         $tmplStatus = Config::get('zvn.template.status');
 
@@ -55,16 +56,34 @@ class Template {
                 $statusValue = array_key_exists($item['status'], $tmplStatus) ? $item['status'] : 'default';
                 $currentTemplateStatus = $tmplStatus[$statusValue];
                 $link = route($controllerName) . '?filter_status=' . $statusValue;
+                if(!empty($paramsSearch['value'])){
+                    $link .= '&search_field=' . $paramsSearch['field'] . '&search_value=' . $paramsSearch['value'];
+                }
                 $class = ($statusValue == $currentFilterStatus) ? 'btn-danger' : 'btn-primary';
                 
                 $xhtml .= sprintf('<a href="%s" type="button" 
-                                        class="btn %s">
+                                        class="button-filter btn %s">
                                         %s
                                         <span class="badge bg-white">%s</span>
                                     </a>',
                                     $link, $class, $currentTemplateStatus['name'], $item['total']
                                 );
             }
+        }else {
+            // Test
+            $statusValue = 'none';
+            $currentTemplateStatus = $tmplStatus[$statusValue];
+            $link = route($controllerName);
+            $item = 0;
+            $class = 'btn-danger';
+
+            $xhtml .= sprintf('<a href="%s" type="button" 
+                                        class="button-filter btn %s">
+                                        %s
+                                        <span class="badge bg-white">%s</span>
+                                    </a>',
+                                    $link, $class, $currentTemplateStatus['name'], $item
+                                );
         }
         return $xhtml;
 
@@ -109,16 +128,9 @@ class Template {
 
     public static function showButtonAction($controllerName, $id){
 
-        $tmplButton = [
-            'edit' => ['class' => 'btn-success', 'title' => 'Edit', 'icon' => 'fa-pencil', 'route-name' => $controllerName . '/form'],
-            'delete' => ['class' => 'btn-danger btn-delete', 'title' => 'Delete', 'icon' => 'fa-trash', 'route-name' => $controllerName . '/delete'],
-            'info' => ['class' => 'btn-info', 'title' => 'View', 'icon' => 'fa-pencil', 'route-name' => $controllerName . '/delete'],
-        ];
+        $tmplButton = Config::get('zvn.template.button');
 
-        $buttonInArea = [
-            'default' => ['edit' , 'delete'],
-            'slider'  => ['edit', 'delete']
-        ];
+        $buttonInArea = Config::get('zvn.config.button');
 
         $controllerName = (array_key_exists($controllerName, $buttonInArea)) ? $controllerName : 'default';
         $listButtons = $buttonInArea[$controllerName];
@@ -129,7 +141,7 @@ class Template {
 
             $currentButton = $tmplButton[$value];
 
-            $link =  route($currentButton['route-name'], ['id' => $id]);
+            $link =  route($controllerName . $currentButton['route-name'], ['id' => $id]);
             $class = $currentButton['class'];
             $title = $currentButton['title'];
             $icon = $currentButton['icon'];

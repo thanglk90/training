@@ -5,8 +5,8 @@
 @php
     use App\Helper\Template as Template;
 
-    $xhtmlButtonFilter  = Template::showButtonFilter($controllerName, $itemsStatusCount, $params['filter']['status']);
-    $xhtmlAreaSearch    = Template::showAreaSearch($controllerName);
+    $xhtmlButtonFilter  = Template::showButtonFilter($controllerName, $itemsStatusCount, $params['filter']['status'], $params['search']);
+    $xhtmlAreaSearch    = Template::showAreaSearch($controllerName, $params['search']);
 @endphp
 
 <div class="page-header zvn-page-header clearfix">

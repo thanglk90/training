@@ -35,7 +35,13 @@ $(document).ready(function() {
 		let search_field = $inputSearchField.val();
 		let search_value = $inputSearchValue.val();
 
-		window.location.href = pathname + "?" + link + 'search_field='+ search_field + '&search_value=' + search_value.replace(/\s+/g, '+').toLowerCase();
+		if(search_value.replace(/\s/g) == '' && search_field != 'all'){
+			alert('please insert input');
+		}else {
+			window.location.href = pathname + "?" + link + 'search_field='+ search_field + '&search_value=' + search_value.replace(/\s+/g, '+').toLowerCase();
+		}
+
+		
 	});
 
 	$btnClearSearch.click(function() {
@@ -64,7 +70,7 @@ $(document).ready(function() {
 		let link		= "";
 		$.each( params, function( key, value ) {
 			if (searchParams.has(value) ) {
-				link += value + "=" + searchParams.get(value) + "&"
+				link += value + "=" + searchParams.get(value) + "&";
 			}
 		});
 
@@ -134,9 +140,9 @@ $(document).ready(function() {
 	});
 
 	//Init datepicker
-	$('.datepicker').datepicker({
-		format: 'dd-mm-yyyy',
-	});
+	// $('.datepicker').datepicker({
+	// 	format: 'dd-mm-yyyy',
+	// });
 
 
 	//Confirm button delete item
@@ -144,4 +150,32 @@ $(document).ready(function() {
 		if(!confirm('Bạn có chắc muốn xóa phần tử?'))
 			return false;
 	});
+	/* Test OK*/
+	// $('.button-filter').click(function(e){
+	// 	e.preventDefault();
+
+	// 	let pathname = window.location.pathname;
+	// 	let searchParams= new URLSearchParams(window.location.search);
+	// 	let fieldStatus = $(this).attr('href');
+	// 	fieldStatus = fieldStatus.substring(fieldStatus.indexOf('=') + 1);
+
+	// 	params 			= ['page', 'filter_status', 'search_field', 'search_value'];
+
+	// 	let link		= "";
+	// 	if(searchParams != ''){
+	// 		$.each( params, function( key, value ) {
+	// 			if(searchParams.has(value)){
+	// 				if(value == 'filter_status'){
+	// 					link += value + "=" + fieldStatus + "&";
+	// 				}else{
+	// 					link += value + "=" + searchParams.get(value) + "&";
+	// 				}
+	// 			}
+	// 		});
+	// 		link = link.substring(0, link.length - 1);
+	// 		window.location.href = pathname + "?" + link;
+	// 	}else {
+	// 		window.location.href = $(this).attr('href');
+	// 	}
+	// });
 });

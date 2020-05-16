@@ -1,6 +1,7 @@
 @php
 
 use App\Helper\Template as Template;
+use App\Helper\HighLight as HighLight;
 
 @endphp
 
@@ -40,9 +41,9 @@ use App\Helper\Template as Template;
                         @php
                             $index = $key + 1;
                             $id = $value['id'];
-                            $name = $value['name'];
-                            $description = $value['description'];
-                            $link = $value['link'];
+                            $name = HighLight::show($value['name'], $params['search'], 'name');
+                            $description = HighLight::show($value['description'], $params['search'], 'description');
+                            $link = HighLight::show($value['link'], $params['search'], 'link');
                             $thumb = Template::showItemThumb($controllerName, $value['thumb'], $value['name'] );
                             $status = Template::showItemStatus($controllerName, $id, $value['status']);
                             $createdHistory = Template::showItemHistory($value['created_by'], $value['created']);
@@ -53,9 +54,9 @@ use App\Helper\Template as Template;
                         <tr class="odd pointer">
                             <td>{{ $index }}</td>
                             <td width="40%">
-                                <p><strong>Name:</strong> {{ $name }}</p>
-                                <p><strong>Description:</strong> {{ $description }}</p>
-                                <p><strong>Link:</strong> {{ $link }}</p>
+                                <p><strong>Name:</strong> {!! $name !!}</p>
+                                <p><strong>Description:</strong> {!! $description !!}</p>
+                                <p><strong>Link:</strong> {!! $link !!}</p>
                                 <p>{!! $thumb !!}</p>
                             </td>
                             <td>{!! $status !!}</td>
