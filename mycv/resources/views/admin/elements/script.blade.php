@@ -1,5 +1,7 @@
 <!-- jQuery -->
 <script src="{{ asset('admin/js/jquery/dist/jquery.min.js') }}"></script>
+<!-- jQuery UI (newadd by myself) -->
+<script src="{{ asset('admin/js/jquery/dist/jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>
 <!-- Bootstrap -->
 <script src="{{ asset('admin/asset/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- FastClick -->

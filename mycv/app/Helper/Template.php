@@ -98,14 +98,14 @@ class Template {
         return $xhtml;
     }
 
-    public static function showItemStatus($controllerName, $id, $status){
+    public static function showItemStatus($controllerName, $id, $statusValue){
 
         $tmplStatus = Config::get('zvn.template.status');
 
-        $statusValue = array_key_exists($status, $tmplStatus) ? $status : 'default';
+        $statusValue = array_key_exists($statusValue, $tmplStatus) ? $statusValue : 'default';
 
         $currentTemplateStatus = $tmplStatus[$statusValue];
-        $link = route($controllerName . '/status', ['active' => $status, 'id' => $id]);
+        $link = route($controllerName . '/status', ['status' => $statusValue, 'id' => $id]);
 
         $xhtml = sprintf(
                         '<a href="%s" 

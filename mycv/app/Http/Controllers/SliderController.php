@@ -41,4 +41,30 @@ class SliderController extends Controller
             
         ]);
     }
+
+    public function form(Request $request){
+
+        return view($this->pathViewController . 'form', [
+            
+        ]);
+    }
+
+
+    public function status(Request $request){
+       
+        $this->params['currentStatus'] = $request->status;
+        $this->params['id'] = $request->id;
+        $result = $this->model->saveItem($this->params, ['task' => 'change-status']);
+        $message = 'ID ' . $this->params['id'];
+        $message .= ' has been changed to ' . $result['status'] . '!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $message);
+    }
+
+    public function delete(Request $request){
+       
+        $this->params['id'] = $request->id;
+        $result = $this->model->deleteItem($this->params, ['task' => 'delete-item']);
+        $message = 'ID ' . $result['id'] . ' has been changed delete!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $message);
+    }
 }

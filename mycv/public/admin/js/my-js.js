@@ -178,4 +178,13 @@ $(document).ready(function() {
 	// 		window.location.href = $(this).attr('href');
 	// 	}
 	// });
+	function hideNotify(){
+		$('.alert').animate({
+			fontSize: '+=6',
+			color: 'blue'
+		}, 1000).hide(2000);
+	}
+	setTimeout(function(){
+		hideNotify();
+	}, 1000);
 });
