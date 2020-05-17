@@ -12,6 +12,12 @@ return [
     ],
 
     'template' => [
+        'form_label' => [
+            'class' => 'control-label col-md-3 col-sm-3 col-xs-12'
+        ],
+        'form_input' => [
+            'class' => 'form-control col-md-6 col-xs-12'
+        ],
         'status' => [
             'all' => ['name' => 'Tất cả', 'class' => "btn-success"],
             'active' => ['name' => 'Kích hoạt', 'class' => "btn-success"],

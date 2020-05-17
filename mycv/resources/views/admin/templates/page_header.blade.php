@@ -1,18 +1,15 @@
 @php
     $pageTitle = 'Quản lý ' . $controllerName;
-    $link = route($controllerName);
-    $icon = 'fa-arrow-left';
-    $title = 'Quay lại';
-
+    $pageButton = sprintf('<a href="%s" class="btn btn-info">
+                                <i class="fa fa-arrow-left"></i> Quay lại
+                                </a>', route($controllerName));
     if($pageIndex == true){
-        $link = route($controllerName) . '/form';
-        $icon = 'fa-plus-circle';
-        $title = 'Thêm mới';
+        $pageButton = sprintf('<a href="%s" class="btn btn-info">
+                                <i class="fa fa-plus-circle"></i> Thêm mới
+                                </a>', route($controllerName) . '/form');
     }
 
-    $pageButton = sprintf('<a href="%s" class="btn btn-info">
-                                <i class="fa %s"></i> %s
-                            </a>', $link, $icon, $title);
+    
 @endphp
 
 

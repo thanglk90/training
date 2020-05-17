@@ -1,28 +1,53 @@
 @extends('admin.main')
 
-@section('content')
-
 @php
     use App\Helper\Template as Template;
+    use App\Helper\Form as FormTemplate;
+    
+    $formLabelClass = Config::get('zvn.template.form_label.class');
+    $formInputClass = Config::get('zvn.template.form_input.class');
 
+    $elements = [
+        [
+            'label' => Form::label('name', 'Name', ['class' => $formLabelClass]),
+            'element' => Form::text('name', $item['name'], ['class' => $formInputClass])
+        ],
+        [
+            'label' => Form::label('description', 'description', ['class' => $formLabelClass]),
+            'element' => Form::text('description', $item['description'], ['class' => $formInputClass])
+        ]
+    ];
+    
+    
 @endphp
+
+@section('content')
 
 @include('admin.templates.page_header', ['pageIndex' => false])
 
-
+{{-- @if (count($item) > 0)
+    
+@endif --}}
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             @include('admin.templates.x_title', ['title' => "Form"])
             <div class="x_content">
-                <form method="POST" action="http://proj_news.xyz/admin123/slider/save" accept-charset="UTF-8" enctype="multipart/form-data" class="form-horizontal form-label-left" id="main-form">
-                    <input name="_token" type="hidden" value="m4wsEvprE9UQhk4WAexK6Xhg2nGQwWUOPsQAZOQ5">
-                    <div class="form-group">
-                        <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control col-md-6 col-xs-12" name="name" type="text" value="Ưu đãi học phí" id="name">
-                        </div>
-                    </div>
+                {!! Form::open([
+                    'method' => 'POST',
+                    'url' => route($controllerName) . '/form',
+                    'accept-charset' => 'UTF-8',
+                    'enctype' => 'multipart/form-data',
+                    'class' => 'form-horizontal form-label-left',
+                    'id' => 'main-form'
+                    ]) 
+                !!}
+                    
+                {!! FormTemplate::show($elements) !!}
+                    
+                {!! Form::close() !!}
+                {{-- 
+                    
                     <div class="form-group">
                         <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -60,7 +85,7 @@
                             <input class="btn btn-success" type="submit" value="Save">
                         </div>
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>

@@ -125,6 +125,18 @@ class SliderModel extends Model
         return $result;
     }
 
+    public function getItem($params, $options = null){
+        if($options['task'] == 'get-item'){
+            $itemInfo = $this->select('id', 'name', 'description', 'status', 'Link', 'thumb')
+                        ->where('id', $params['id'])
+                        ->first();
+        }
+
+        $result = $itemInfo;
+        return $result;
+        
+    }
+
 
 
 }
