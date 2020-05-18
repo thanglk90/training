@@ -7,6 +7,15 @@
     $formLabelClass = Config::get('zvn.template.form_label.class');
     $formInputClass = Config::get('zvn.template.form_input.class');
 
+    $statusValue = [
+        'default' => 'Select status',
+        'active' => Config::get('zvn.template.status.active.name'),
+        'inactive' => Config::get('zvn.template.status.inactive.name')
+    ];
+
+    $inputHiddenID = Form::hidden('id', $item['id']);
+    $inputHiddenThumb = Form::hidden('thumb_current', $item['thumb']);
+
     $elements = [
         [
             'label' => Form::label('name', 'Name', ['class' => $formLabelClass]),
@@ -15,6 +24,24 @@
         [
             'label' => Form::label('description', 'description', ['class' => $formLabelClass]),
             'element' => Form::text('description', $item['description'], ['class' => $formInputClass])
+        ],
+        [
+            'label' => Form::label('status', 'Status', ['class' => $formLabelClass]),
+            'element' => Form::select('status', $statusValue, $item['status'], ['class' => $formInputClass])
+        ],
+        [
+            'label' => Form::label('link', 'Link', ['class' => $formLabelClass]),
+            'element' => Form::text('link', $item['link'], ['class' => $formInputClass])
+        ],
+        [
+            'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelClass]),
+            'element' => Form::file('thumb', ['class' => $formInputClass]),
+            'thumb' => ( !empty($item['id'])) ? Template::showItemThumb($controllerName, $item['thumb'], $item['name']) : null,
+            'type' => 'thumb'
+        ],
+        [
+            'element' => $inputHiddenID . $inputHiddenThumb . Form::submit('Lưu lại', ['class' => 'btn btn-success']),
+            'type' => 'btn-submit'
         ]
     ];
     
@@ -44,32 +71,10 @@
                 !!}
                     
                 {!! FormTemplate::show($elements) !!}
-                    
                 {!! Form::close() !!}
                 {{-- 
                     
-                    <div class="form-group">
-                        <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control col-md-6 col-xs-12" name="description" type="text" value="Tổng hợp các trương trình ưu đãi học phí hàng tuần..." id="description">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="status" class="control-label col-md-3 col-sm-3 col-xs-12">Status</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control col-md-6 col-xs-12" id="status" name="status">
-                                <option value="default">Select status</option>
-                                <option value="active" selected="selected">Kích hoạt</option>
-                                <option value="inactive">Chưa kích hoạt</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="link" class="control-label col-md-3 col-sm-3 col-xs-12">Link</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control col-md-6 col-xs-12" name="link" type="text" value="https://zendvn.com/uu-dai-hoc-phi-tai-zendvn/" id="link">
-                        </div>
-                    </div>
+                               
                     <div class="form-group">
                         <label for="thumb" class="control-label col-md-3 col-sm-3 col-xs-12">Thumb</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -77,15 +82,8 @@
                             <p style="margin-top: 50px;"><img src="{{ asset('images/slider/DeX0M02V6t.jpeg') }}" alt="Ưu đãi học phí" class="zvn-thumb"></p>
                         </div>
                     </div>
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <input name="id" type="hidden" value="3">
-                            <input name="thumb_current" type="hidden" value="LWi6hINpXz.jpeg">
-                            <input class="btn btn-success" type="submit" value="Save">
-                        </div>
-                    </div>
-                </form> --}}
+                    
+                 --}}
             </div>
         </div>
     </div>

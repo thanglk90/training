@@ -127,7 +127,7 @@ class SliderModel extends Model
 
     public function getItem($params, $options = null){
         if($options['task'] == 'get-item'){
-            $itemInfo = $this->select('id', 'name', 'description', 'status', 'Link', 'thumb')
+            $itemInfo = $this->select('id', 'name', 'description', 'status', 'link', 'thumb')
                         ->where('id', $params['id'])
                         ->first();
         }

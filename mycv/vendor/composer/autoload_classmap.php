@@ -10,6 +10,7 @@ return array(
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Helper\\HighLight' => $baseDir . '/app/Helper/HighLight.php',
     'App\\Helper\\Template' => $baseDir . '/app/Helper/Template.php',
+    'App\\Helper\\form' => $baseDir . '/app/Helper/form.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DashboardController' => $baseDir . '/app/Http/Controllers/DashboardController.php',
     'App\\Http\\Controllers\\MeController' => $baseDir . '/app/Http/Controllers/MeController.php',

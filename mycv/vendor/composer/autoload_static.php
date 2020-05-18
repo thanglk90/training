@@ -486,6 +486,7 @@ class ComposerStaticInit66a00a42ff38ed48cf43cd3fc4296d08
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Helper\\HighLight' => __DIR__ . '/../..' . '/app/Helper/HighLight.php',
         'App\\Helper\\Template' => __DIR__ . '/../..' . '/app/Helper/Template.php',
+        'App\\Helper\\form' => __DIR__ . '/../..' . '/app/Helper/form.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
         'App\\Http\\Controllers\\MeController' => __DIR__ . '/../..' . '/app/Http/Controllers/MeController.php',
