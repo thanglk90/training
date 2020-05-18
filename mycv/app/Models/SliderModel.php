@@ -19,6 +19,12 @@ class SliderModel extends Model
         'link'
     ];
 
+    private $crudNotAccepted = [
+        '_token',
+        'thumb_current',
+        'thumb'
+    ];
+
     public function listItems($params, $options = null){
         $result = '';
         if($options['task'] == 'admin-list-items'){
@@ -110,9 +116,21 @@ class SliderModel extends Model
      
             self::where('id', $params['id'])
                 ->update(['status' => $active]);
+
+            $result = array('status' => $active, 'id' => $params['id']);
         }
 
-        $result = array('status' => $active, 'id' => $params['id']);
+        if($options['task'] == 'add-item'){
+
+            $params = array_diff_key($params, array_flip($this->crudNotAccepted));
+            $id = $this->insertGetId($params);
+            
+            $result = array('status' => 'success', 'id' => $id);
+        }
+
+        
+
+        
         return $result;
     }
 

@@ -7,7 +7,7 @@ class form {
     public static function show($elements){
         
         $xhtml = null;
-
+        
         foreach($elements as $element){
             $xhtml .= self::formGroup($element);
             

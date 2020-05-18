@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\SliderModel as MainModel;
 use Illuminate\Support\Facades\View;
+use App\Http\Requests\SliderRequest as MainRequest;
 
 class SliderController extends Controller
 {
@@ -56,22 +58,43 @@ class SliderController extends Controller
         
     }
 
+    public function save(MainRequest $request){
+       
+       if($request->method() == 'POST'){
+           $params = $request->all();
+
+           $task = 'add-item';
+           $notify = "Thêm phần tử thành công";
+
+           if($params['id'] !== null){
+               $task = 'edit-item';
+               $notify = "Chỉnh sửa phần tử thành công";
+           }
+           $this->model->saveItem($params, ['task' => $task]);
+           return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
+       }
+    }
+
 
     public function status(Request $request){
        
         $this->params['currentStatus'] = $request->status;
         $this->params['id'] = $request->id;
         $result = $this->model->saveItem($this->params, ['task' => 'change-status']);
-        $message = 'ID ' . $this->params['id'];
-        $message .= ' has been changed to ' . $result['status'] . '!!';
-        return redirect()->route($this->controllerName)->with('zvn_notify', $message);
+        $notify = 'ID ' . $this->params['id'];
+        $notify .= ' has been changed to ' . $result['status'] . '!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
     }
 
     public function delete(Request $request){
        
         $this->params['id'] = $request->id;
         $result = $this->model->deleteItem($this->params, ['task' => 'delete-item']);
-        $message = 'ID ' . $result['id'] . ' has been changed delete!!';
-        return redirect()->route($this->controllerName)->with('zvn_notify', $message);
+        $notify = 'ID ' . $result['id'] . ' has been changed delete!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
     }
+
+    
+
+
 }

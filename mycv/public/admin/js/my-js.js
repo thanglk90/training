@@ -186,5 +186,5 @@ $(document).ready(function() {
 	}
 	setTimeout(function(){
 		hideNotify();
-	}, 1000);
+	}, 10000);
 });
