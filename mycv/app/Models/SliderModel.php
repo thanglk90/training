@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Config;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Storage;
 
 class SliderModel extends Model
 {
     protected $table = 'slider';
-    public $timestamps = false;
+    protected $folderUpload = 'slider';
+    public $timestamps = true;
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
     private $fieldSearchAccepted = [
@@ -22,7 +26,6 @@ class SliderModel extends Model
     private $crudNotAccepted = [
         '_token',
         'thumb_current',
-        'thumb'
     ];
 
     public function listItems($params, $options = null){
@@ -121,22 +124,48 @@ class SliderModel extends Model
         }
 
         if($options['task'] == 'add-item'){
-
-            $params = array_diff_key($params, array_flip($this->crudNotAccepted));
-            $id = $this->insertGetId($params);
             
+            $thumb = $params['thumb'];
+            $params['thumb'] = Str::random(10) . '.' . $thumb->extension();
+            $thumb->storeAs($this->folderUpload, $params['thumb'], 'znv_storage_images');
+            $params = array_diff_key($params, array_flip($this->crudNotAccepted));
+            $params['created_by'] = 'kthang';
+            $params['created'] = date('Y-m-d H:m:i', time());
+            $id = $this ->insertGetId($params);
+
             $result = array('status' => 'success', 'id' => $id);
         }
 
-        
+        if($options['task'] == 'edit-item'){
 
-        
-        return $result;
+            if(!empty($params['thumb'])){ // have uploaded new image
+                // delete old image
+                Storage::disk('znv_storage_images')->delete($this->folderUpload . '/' . $params['thumb_current']);
+                //add new image
+                $thumb = $params['thumb'];
+                $params['thumb'] = Str::random(10) . '.' . $thumb->extension();
+                $thumb->storeAs($this->folderUpload, $params['thumb'], 'znv_storage_images');
+            }
+
+            $params = array_diff_key($params, array_flip($this->crudNotAccepted));
+            $params['modified'] = date('Y-m-d H:m:i', time()); 
+            $paramss['modified_by'] = 'kthang';
+
+            $this->where('id', $params['id'])->update($params);
+            $result = array('id' => $params['id']);
+        }
+
+
+       return $result;
     }
 
     public function deleteItem($params, $options = null){
         if($options['task'] == 'delete-item'){
+            $item = $this->getItem($params, ['task' => 'get-thumb']);
+            Storage::disk('znv_storage_images')->delete($this->folderUpload . '/' . $item['thumb']);
+            //File::delete(public_path('images/slider/' . $item['thumb']));
             self::where('id', $params['id'])->delete();
+            
         }
 
         $result = ['id' => $params['id']];
@@ -146,6 +175,11 @@ class SliderModel extends Model
     public function getItem($params, $options = null){
         if($options['task'] == 'get-item'){
             $itemInfo = $this->select('id', 'name', 'description', 'status', 'link', 'thumb')
+                        ->where('id', $params['id'])
+                        ->first();
+        }
+        if($options['task'] == 'get-thumb'){
+            $itemInfo = $this->select('id', 'thumb')
                         ->where('id', $params['id'])
                         ->first();
         }

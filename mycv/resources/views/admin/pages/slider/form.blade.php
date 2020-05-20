@@ -4,8 +4,8 @@
     use App\Helper\Template as Template;
     use App\Helper\Form as FormTemplate;
     
-    $formLabelClass = Config::get('zvn.template.form_label.class');
-    $formInputClass = Config::get('zvn.template.form_input.class');
+    $formLabelAttr = Config::get('zvn.template.form_label');
+    $formInputAttr = Config::get('zvn.template.form_input');
 
     $statusValue = [
         'default' => 'Select status',
@@ -19,24 +19,24 @@
 
         $elements = [
             [
-                'label' => Form::label('name', 'Name', ['class' => $formLabelClass]),
-                'element' => Form::text('name', $item['name'], ['class' => $formInputClass])
+                'label' => Form::label('name', 'Name', ['class' => $formLabelAttr]),
+                'element' => Form::text('name', $item['name'], ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('description', 'description', ['class' => $formLabelClass]),
-                'element' => Form::text('description', $item['description'], ['class' => $formInputClass])
+                'label' => Form::label('description', 'description', ['class' => $formLabelAttr]),
+                'element' => Form::text('description', $item['description'], ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('status', 'Status', ['class' => $formLabelClass]),
-                'element' => Form::select('status', $statusValue, $item['status'], ['class' => $formInputClass])
+                'label' => Form::label('status', 'Status', ['class' => $formLabelAttr]),
+                'element' => Form::select('status', $statusValue, $item['status'], ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('link', 'Link', ['class' => $formLabelClass]),
-                'element' => Form::text('link', $item['link'], ['class' => $formInputClass])
+                'label' => Form::label('link', 'Link', ['class' => $formLabelAttr]),
+                'element' => Form::text('link', $item['link'], ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelClass]),
-                'element' => Form::file('thumb', ['class' => $formInputClass]),
+                'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelAttr]),
+                'element' => Form::file('thumb', ['class' => $formInputAttr]),
                 'thumb' => ( !empty($item['id'])) ? Template::showItemThumb($controllerName, $item['thumb'], $item['name']) : null,
                 'type' => 'thumb'
             ],
@@ -51,24 +51,24 @@
 
         $elements = [
             [
-                'label' => Form::label('name', 'Name', ['class' => $formLabelClass]),
-                'element' => Form::text('name', null, ['class' => $formInputClass])
+                'label' => Form::label('name', 'Name', ['class' => $formLabelAttr]),
+                'element' => Form::text('name', null, ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('description', 'description', ['class' => $formLabelClass]),
-                'element' => Form::text('description', null, ['class' => $formInputClass])
+                'label' => Form::label('description', 'description', ['class' => $formLabelAttr]),
+                'element' => Form::text('description', null, ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('status', 'Status', ['class' => $formLabelClass]),
-                'element' => Form::select('status', $statusValue, null, ['class' => $formInputClass])
+                'label' => Form::label('status', 'Status', ['class' => $formLabelAttr]),
+                'element' => Form::select('status', $statusValue, null, ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('link', 'Link', ['class' => $formLabelClass]),
-                'element' => Form::text('link', null, ['class' => $formInputClass])
+                'label' => Form::label('link', 'Link', ['class' => $formLabelAttr]),
+                'element' => Form::text('link', null, ['class' => $formInputAttr])
             ],
             [
-                'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelClass]),
-                'element' => Form::file('thumb', ['class' => $formInputClass]),
+                'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelAttr]),
+                'element' => Form::file('thumb', ['class' => $formInputAttr]),
                 'thumb' => ( !empty($item['id'])) ? Template::showItemThumb($controllerName, null, null) : null,
                 'type' => 'thumb'
             ],

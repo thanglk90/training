@@ -69,7 +69,7 @@ class SliderController extends Controller
            if($params['id'] !== null){
                $task = 'edit-item';
                $notify = "Chỉnh sửa phần tử thành công";
-           }
+           };
            $this->model->saveItem($params, ['task' => $task]);
            return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
        }
