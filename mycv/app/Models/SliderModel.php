@@ -2,64 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\AdminModel;
 use DB;
 use Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Storage;
 
-class SliderModel extends Model
+class SliderModel extends AdminModel
 {
-    protected $table = 'slider';
-    protected $folderUpload = 'slider';
-    public $timestamps = true;
-    const CREATED_AT = 'created';
-    const UPDATED_AT = 'modified';
-    private $fieldSearchAccepted = [
-        'id',
-        'name',
-        'description',
-        'link'
-    ];
-
-    private $crudNotAccepted = [
-        '_token',
-        'thumb_current',
-    ];
+    public function __construct(){
+        $this->table = 'slider';
+        $this->folderUpload = 'slider';
+        $this->fieldSearchAccepted = ['id','name','description','link'];
+        $this->crudNotAccepted = ['_token','thumb_current'];
+    }
 
     public function listItems($params, $options = null){
         $result = '';
         if($options['task'] == 'admin-list-items'){
-            
             $query = $this->select('id','name','description','link','thumb','created','created_by','modified','modified_by','status');
-            
-            /* Test */
-            // $listStatus = Config::get('zvn.template.status');
-            
-            // $dbListStatus = $this->select('status')
-            //                      ->groupBy('status')->get()->toArray();
-            // $dbListStatus = array_flip(array_column($dbListStatus, 'status'));
-            // $diffArrStatus1 = array_diff_key($dbListStatus, $listStatus);
-            // $diffArrStatus2 = array_flip(array_diff_key($dbListStatus, $diffArrStatus1));
-            
-            // echo '<pre>';
-            // print_r($diffArrStatus2);
-            // echo '<pre>';
-            
-            /* /Test */
 
             if(isset($params['filter']['status']) && $params['filter']['status'] !== 'all'){
                 $query->where('status', '=', $params['filter']['status']);
-            // /* Test */
-            //     if(!array_key_exists($params['filter']['status'], $dbListStatus)){
-            //         $query->whereNotIn('status', $diffArrStatus2);
-            //     }else{
-            //         $query->where('status', '=', $params['filter']['status']);
-            //     }
-            // /* /Test */
             }
-
+            
             if($params['search']['value'] !== ''){
                 if($params['search']['field'] == 'all'){
                     $query->where(function($query) use ($params){
@@ -75,6 +42,13 @@ class SliderModel extends Model
             
             $result = $query->orderBy('id', 'desc')
                             ->paginate(($params['pagination']['totalItemsPerPage']));
+        }
+
+        if($options['task'] == 'news-list-items'){
+            $query = $this->select('id','name','description','link','thumb')
+                          ->where('status', '=', 'active')
+                          ->limit(5);
+            $result = $query->get()->toArray();
         }
         
         return $result;
@@ -125,13 +99,11 @@ class SliderModel extends Model
 
         if($options['task'] == 'add-item'){
             
-            $thumb = $params['thumb'];
-            $params['thumb'] = Str::random(10) . '.' . $thumb->extension();
-            $thumb->storeAs($this->folderUpload, $params['thumb'], 'znv_storage_images');
-            $params = array_diff_key($params, array_flip($this->crudNotAccepted));
+            $params['thumb'] = $this->uploadThumb($params['thumb']);
             $params['created_by'] = 'kthang';
             $params['created'] = date('Y-m-d H:m:i', time());
-            $id = $this ->insertGetId($params);
+            
+            $id = $this->insertGetId($this->prepareParams($params));
 
             $result = array('status' => 'success', 'id' => $id);
         }
@@ -140,16 +112,14 @@ class SliderModel extends Model
 
             if(!empty($params['thumb'])){ // have uploaded new image
                 // delete old image
-                Storage::disk('znv_storage_images')->delete($this->folderUpload . '/' . $params['thumb_current']);
+                $this->deleteThumb($params['thumb_current']);
                 //add new image
-                $thumb = $params['thumb'];
-                $params['thumb'] = Str::random(10) . '.' . $thumb->extension();
-                $thumb->storeAs($this->folderUpload, $params['thumb'], 'znv_storage_images');
+                $params['thumb'] = $this->uploadThumb($params['thumb']);
             }
-
-            $params = array_diff_key($params, array_flip($this->crudNotAccepted));
             $params['modified'] = date('Y-m-d H:m:i', time()); 
-            $paramss['modified_by'] = 'kthang';
+            $params['modified_by'] = 'kthang';
+            $params = $this->prepareParams($params);
+            
 
             $this->where('id', $params['id'])->update($params);
             $result = array('id' => $params['id']);
@@ -162,7 +132,7 @@ class SliderModel extends Model
     public function deleteItem($params, $options = null){
         if($options['task'] == 'delete-item'){
             $item = $this->getItem($params, ['task' => 'get-thumb']);
-            Storage::disk('znv_storage_images')->delete($this->folderUpload . '/' . $item['thumb']);
+            $this->deleteThumb($item['thumb']);
             //File::delete(public_path('images/slider/' . $item['thumb']));
             self::where('id', $params['id'])->delete();
             
@@ -188,7 +158,5 @@ class SliderModel extends Model
         return $result;
         
     }
-
-
 
 }

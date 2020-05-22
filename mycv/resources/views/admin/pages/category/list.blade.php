@@ -1,4 +1,11 @@
-<div class="row">
+@php
+
+use App\Helper\Template as Template;
+use App\Helper\HighLight as HighLight;
+
+@endphp
+
+{{-- <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
@@ -10,64 +17,60 @@
                 </ul>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content">
-                <div class="table-responsive">
-                    <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                            <tr class="headings">
-                                <th class="column-title">#</th>
-                                <th class="column-title">Slider Info</th>
-                                <th class="column-title">Trạng thái</th>
-                                <th class="column-title">Tạo mới</th>
-                                <th class="column-title">Chỉnh sửa</th>
-                                <th class="column-title">Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (1 > 0)
-                         
-                                <tr class="odd pointer">
-                                    <td>1</td>
-                                    <td width="40%">
-                                        <p><strong>Name:</strong> Ưu đãi học phí</p>
-                                        <p><strong>Description:</strong> Tổng hợp các trương trình ưu đãi học phí hàng tuần...</p>
-                                        <p><strong>Link:</strong> https://zendvn.com/uu-dai-hoc-phi-tai-zendvn/</p>
-                                        <p><img src="http://thanginfo.com/images/slider/KOO5CnJ6Hr.jpeg" alt="Ưu đãi học phí" class="zvn-thumb" /></p>
-                                    </td>
-                                    <td><a href="http://proj_news.xyz/admin123/slider/change-status-active/3" type="button" class="btn btn-round btn-success">Kích hoạt</a></td>
-                                    <td>
-                                        <p><i class="fa fa-user"></i> admin</p>
-                                        <p><i class="fa fa-clock-o"></i> 24/04/2019</p>
-                                    </td>
-                                    <td>
-                                        <p><i class="fa fa-user"></i> admin</p>
-                                        <p><i class="fa fa-clock-o"></i> 24/04/2019</p>
-                                    </td>
-                                    <td class="last">
-                                        <div class="zvn-box-btn-filter">
-                                            <a href="http://proj_news.xyz/admin123/slider/form/3" type="button" class="btn btn-icon btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Edit">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                            <a href="http://proj_news.xyz/admin123/slider/delete/3" type="button" class="btn btn-icon btn-danger btn-delete" data-toggle="tooltip" data-placement="top" data-original-title="Delete">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            @else
-
-                            @include('admin.templates.list_empty' , [
-                                'colspan' => 6,
-                                'class'   => 'text-center'
-                            ])
-
-
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            
         </div>
+    </div>
+</div> --}}
+
+<div class="x_content">
+    <div class="table-responsive">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+                    <th class="column-title">#</th>
+                    <th class="column-title">Name</th>
+                    <th class="column-title">Trạng thái</th>
+                    <th class="column-title">Hiển thị ở Home</th>
+                    <th class="column-title">Tạo mới</th>
+                    <th class="column-title">Chỉnh sửa</th>
+                    <th class="column-title">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (count($items) > 0)
+                    @foreach ($items as $key => $value)
+                        @php
+                            $index = $key + 1;
+                            $id = $value['id'];
+                            $name = HighLight::show($value['name'], $params['search'], 'name');
+                            $status = Template::showItemStatus($controllerName, $id, $value['status']);
+                            $isHome = Template::showItemIsHome($controllerName, $id, $value['is_home']);
+                            $createdHistory = Template::showItemHistory($value['created_by'], $value['created']);
+                            $modifiedHistory = Template::showItemHistory($controllerName, $value['modified_by'], $value['modified']);
+                            $listBtnAction = Template::showButtonAction($controllerName, $id);
+                        @endphp
+
+                        <tr class="odd pointer">
+                            <td>{{ $index }}</td>
+                            <td width="40%">{!! $name !!}</td>
+                            <td>{!! $status !!}</td>
+                            <td>{!! $isHome !!}</td>
+                            <td>{!! $createdHistory !!}</td>
+                            <td>{!! $modifiedHistory !!}</td>
+                            <td class="last">{!! $listBtnAction !!}</td>
+                        </tr>
+                    @endforeach
+                    
+
+                @else
+
+                    @include('admin.templates.list_empty' , [
+                        'colspan' => 6,
+                        'class'   => 'text-center'
+                    ])
+
+                @endif
+            </tbody>
+        </table>
     </div>
 </div>

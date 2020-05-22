@@ -113,8 +113,23 @@ class Template {
                         $link, $currentTemplateStatus['class'], $currentTemplateStatus['name']);
 
         return $xhtml;
+    }
 
-        // <a href="http://proj_news.xyz/admin123/slider/change-status-active/3" type="button" class="btn btn-round btn-success">{{ $status }}</a>
+    public static function showItemIsHome($controllerName, $id, $isHomeValue){
+
+        $tmplIsHome = Config::get('zvn.template.is_home');
+
+        $isHomeValue = array_key_exists($isHomeValue, $tmplIsHome) ? $isHomeValue : 'yes';
+
+        $currentTemplateIsHome = $tmplIsHome[$isHomeValue];
+        $link = route($controllerName . '/isHome', ['is_home' => $isHomeValue, 'id' => $id]);
+
+        $xhtml = sprintf(
+                        '<a href="%s" 
+                        type="button" class="btn btn-round %s">%s</a>', 
+                        $link, $currentTemplateIsHome['class'], $currentTemplateIsHome['name']);
+
+        return $xhtml;
     }
 
     public static function showItemThumb($controllerName, $thumbName, $thumbAlt){

@@ -3,7 +3,8 @@
 return [
 
     'url' => [
-        'prefix_admin' => 'admin'
+        'prefix_admin' => 'admin',
+        'prefix_news' => 'news69'
     ],
 
     'format' => [
@@ -26,6 +27,10 @@ return [
             'default' => ['name' => 'Chưa xác định', 'class' => "btn-info"],
             'none' => ['name' => 'Tất cả', 'class' => "btn-danger"],
         ],
+        'is_home' => [
+            'yes' => ['name' => 'Hiển thị', 'class' => "btn-primary"],
+            'no' => ['name' => 'Không hiển thị', 'class' => "btn-warning"]
+        ],
         'search' => [
             'all' => ['name' => 'Search by all'],
             'id' => ['name' => 'Search by ID'],
@@ -47,12 +52,14 @@ return [
     'config' => [
         'search' => [
             'default' => ['all', 'id', 'fullname'],
-            'slider' => ['all', 'id', 'name', 'description', 'link']
+            'slider' => ['all', 'id', 'name', 'description', 'link'],
+            'category' => ['all', 'id', 'name']
         ],
 
         'button' => [
             'default' => ['edit' , 'delete'],
-            'slider'  => ['edit', 'delete']
+            'slider'  => ['edit', 'delete'],
+            'category'  => ['edit', 'delete']
         ]
     ]
 
