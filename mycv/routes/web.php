@@ -74,8 +74,11 @@ Route::group(['prefix' => $prefixAdmin], function () {
         Route::get('change-status-{status}/{id}', 
             ['as' => $controllerName. '/status', 'uses' => $controller . 'status']
         );
-        Route::get('change-status-{is_home}/{id}', 
+        Route::get('change-is-home-{is_home}/{id}', 
             ['as' => $controllerName. '/isHome', 'uses' => $controller . 'isHome']
+        );
+        Route::get('change-display-{display}/{id}', 
+            ['as' => $controllerName. '/display', 'uses' => $controller . 'display']
         );
     });
 

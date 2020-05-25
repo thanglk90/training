@@ -85,6 +85,26 @@ class CategoryController extends Controller
         return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
     }
 
+    public function isHome(Request $request){
+       
+        $this->params['currentIsHome'] = $request->is_home;
+        $this->params['id'] = $request->id;
+        $result = $this->model->saveItem($this->params, ['task' => 'change-is-home']);
+        $notify = 'ID ' . $this->params['id'] . ' isHome';
+        $notify .= ' has been changed to ' . $result['is_home'] . '!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
+    }
+
+    public function display(Request $request){
+       
+        $this->params['currentDisplay'] = $request->display;
+        $this->params['id'] = $request->id;
+        $result = $this->model->saveItem($this->params, ['task' => 'change-display']);
+        $notify = 'ID ' . $this->params['id'] . ' display';
+        $notify .= ' has been changed to ' . $result['display'] . '!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
+    }
+
 
     public function delete(Request $request){
        

@@ -132,6 +132,25 @@ class Template {
         return $xhtml;
     }
 
+    public static function showItemSelect($controllerName, $id, $displayValue){
+
+       $link = route($controllerName . '/display', ['display' => 'value_new', 'id' => $id]);
+       $tmplDisplay = Config::get('zvn.template.display');
+       $xhtml = sprintf('<select name="select_change_attr" data-url="%s" class="form-control">', $link);
+
+       foreach($tmplDisplay as $key => $value){
+            $xhtmlSelected = '';
+            if($key == $displayValue){
+                $xhtmlSelected  = 'selected="selected"';
+            }
+            $xhtml .= sprintf('<option value="%s" %s>%s</option>', $key, $xhtmlSelected, $value['name']);
+       }
+
+       $xhtml .= '</select>';
+
+        return $xhtml;
+    }
+
     public static function showItemThumb($controllerName, $thumbName, $thumbAlt){
 
         $imgLink = asset("images/$controllerName/$thumbName");

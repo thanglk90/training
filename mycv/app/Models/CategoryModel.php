@@ -22,7 +22,7 @@ class CategoryModel extends AdminModel
         $result = '';
         if($options['task'] == 'admin-list-items'){
             
-            $query = $this->select('id','name', 'is_home', 'created','created_by','modified','modified_by','status');
+            $query = $this->select('id','name', 'is_home', 'display', 'created','created_by','modified','modified_by','status');
             
             if(isset($params['filter']['status']) && $params['filter']['status'] !== 'all'){
                 $query->where('status', '=', $params['filter']['status']);
@@ -48,6 +48,14 @@ class CategoryModel extends AdminModel
         if($options['task'] == 'category-list-items'){
             $query = $this->select('id','name')
                           ->where('status', '=', 'active')
+                          ->limit(8);
+            $result = $query->get()->toArray();
+        }
+
+        if($options['task'] == 'news-list-items-is-home'){
+            $query = $this->select('id','name')
+                          ->where('status', '=', 'active')
+                          ->where('is_home', '=', '1')
                           ->limit(8);
             $result = $query->get()->toArray();
         }
@@ -96,6 +104,26 @@ class CategoryModel extends AdminModel
                 ->update(['status' => $active]);
 
             $result = array('status' => $active, 'id' => $params['id']);
+        }
+
+        if($options['task'] == 'change-is-home'){
+
+            $isHome = ($params['currentIsHome'] == '1') ? '0' : "1";
+     
+            self::where('id', $params['id'])
+                ->update(['is_home' => $isHome]);
+
+            $result = array('is_home' => $isHome, 'id' => $params['id']);
+        }
+
+        if($options['task'] == 'change-display'){
+
+            $display = $params['currentDisplay'];
+     
+            self::where('id', $params['id'])
+                ->update(['display' => $display]);
+
+            $result = array('display' => $display, 'id' => $params['id']);
         }
 
         if($options['task'] == 'add-item'){

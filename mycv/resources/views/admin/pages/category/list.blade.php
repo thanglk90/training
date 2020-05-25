@@ -31,6 +31,7 @@ use App\Helper\HighLight as HighLight;
                     <th class="column-title">Name</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Hiển thị ở Home</th>
+                    <th class="column-title">Kiểu hiển thị</th>
                     <th class="column-title">Tạo mới</th>
                     <th class="column-title">Chỉnh sửa</th>
                     <th class="column-title">Hành động</th>
@@ -45,6 +46,7 @@ use App\Helper\HighLight as HighLight;
                             $name = HighLight::show($value['name'], $params['search'], 'name');
                             $status = Template::showItemStatus($controllerName, $id, $value['status']);
                             $isHome = Template::showItemIsHome($controllerName, $id, $value['is_home']);
+                            $display = Template::showItemSelect($controllerName, $id, $value['display']);
                             $createdHistory = Template::showItemHistory($value['created_by'], $value['created']);
                             $modifiedHistory = Template::showItemHistory($controllerName, $value['modified_by'], $value['modified']);
                             $listBtnAction = Template::showButtonAction($controllerName, $id);
@@ -55,6 +57,7 @@ use App\Helper\HighLight as HighLight;
                             <td width="40%">{!! $name !!}</td>
                             <td>{!! $status !!}</td>
                             <td>{!! $isHome !!}</td>
+                            <td>{!! $display !!}</td>
                             <td>{!! $createdHistory !!}</td>
                             <td>{!! $modifiedHistory !!}</td>
                             <td class="last">{!! $listBtnAction !!}</td>

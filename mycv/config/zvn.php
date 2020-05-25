@@ -28,8 +28,12 @@ return [
             'none' => ['name' => 'Tất cả', 'class' => "btn-danger"],
         ],
         'is_home' => [
-            'yes' => ['name' => 'Hiển thị', 'class' => "btn-primary"],
-            'no' => ['name' => 'Không hiển thị', 'class' => "btn-warning"]
+            '1' => ['name' => 'Hiển thị', 'class' => "btn-primary"],
+            '0' => ['name' => 'Không hiển thị', 'class' => "btn-warning"]
+        ],
+        'display' => [
+            'list' => ['name' => 'Danh sách'],
+            'grid' => ['name' => 'Lưới']
         ],
         'search' => [
             'all' => ['name' => 'Search by all'],
