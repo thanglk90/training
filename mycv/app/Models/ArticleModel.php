@@ -9,25 +9,24 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Storage;
 
-class CategoryModel extends AdminModel
+class ArticleModel extends AdminModel
 {
     public function __construct(){
-        $this->table = 'category';
-        $this->folderUpload = 'category';
-        $this->fieldSearchAccepted = ['id','name'];
-        $this->crudNotAccepted = ['_token'];
+        $this->table = 'article';
+        $this->folderUpload = 'article';
+        $this->fieldSearchAccepted = ['name','content'];
+        $this->crudNotAccepted = ['_token','thumb_current'];
     }
 
     public function listItems($params, $options = null){
         $result = '';
         if($options['task'] == 'admin-list-items'){
-            
-            $query = $this->select('id','name', 'is_home', 'display', 'created','created_by','modified','modified_by','status');
-            
+            $query = $this->select('id','name','status','content','thumb','created','created_by','modified','modified_by');
+
             if(isset($params['filter']['status']) && $params['filter']['status'] !== 'all'){
                 $query->where('status', '=', $params['filter']['status']);
             }
-
+            
             if($params['search']['value'] !== ''){
                 if($params['search']['field'] == 'all'){
                     $query->where(function($query) use ($params){
@@ -45,21 +44,13 @@ class CategoryModel extends AdminModel
                             ->paginate(($params['pagination']['totalItemsPerPage']));
         }
 
-        if($options['task'] == 'category-list-items'){
-            $query = $this->select('id','name')
+        if($options['task'] == 'news-list-items'){
+            $query = $this->select('id','name','content','link','thumb')
                           ->where('status', '=', 'active')
-                          ->limit(8);
+                          ->limit(5);
             $result = $query->get()->toArray();
         }
-
-        if($options['task'] == 'news-list-items-is-home'){
-            $query = $this->select('id','name', 'display')
-                          ->where('status', '=', 'active')
-                          ->where('is_home', '=', '1')
-                          ->limit(8);
-            $result = $query->get()->toArray();
-        }
-
+        
         return $result;
     }
 
@@ -106,28 +97,9 @@ class CategoryModel extends AdminModel
             $result = array('status' => $active, 'id' => $params['id']);
         }
 
-        if($options['task'] == 'change-is-home'){
-
-            $isHome = ($params['currentIsHome'] == '1') ? '0' : "1";
-     
-            self::where('id', $params['id'])
-                ->update(['is_home' => $isHome]);
-
-            $result = array('is_home' => $isHome, 'id' => $params['id']);
-        }
-
-        if($options['task'] == 'change-display'){
-
-            $display = $params['currentDisplay'];
-     
-            self::where('id', $params['id'])
-                ->update(['display' => $display]);
-
-            $result = array('display' => $display, 'id' => $params['id']);
-        }
-
         if($options['task'] == 'add-item'){
             
+            $params['thumb'] = $this->uploadThumb($params['thumb']);
             $params['created_by'] = 'kthang';
             $params['created'] = date('Y-m-d H:m:i', time());
             
@@ -138,6 +110,12 @@ class CategoryModel extends AdminModel
 
         if($options['task'] == 'edit-item'){
 
+            if(!empty($params['thumb'])){ // have uploaded new image
+                // delete old image
+                $this->deleteThumb($params['thumb_current']);
+                //add new image
+                $params['thumb'] = $this->uploadThumb($params['thumb']);
+            }
             $params['modified'] = date('Y-m-d H:m:i', time()); 
             $params['modified_by'] = 'kthang';
             $params = $this->prepareParams($params);
@@ -153,6 +131,9 @@ class CategoryModel extends AdminModel
 
     public function deleteItem($params, $options = null){
         if($options['task'] == 'delete-item'){
+            $item = $this->getItem($params, ['task' => 'get-thumb']);
+            $this->deleteThumb($item['thumb']);
+            //File::delete(public_path('images/slider/' . $item['thumb']));
             self::where('id', $params['id'])->delete();
             
         }
@@ -163,7 +144,12 @@ class CategoryModel extends AdminModel
 
     public function getItem($params, $options = null){
         if($options['task'] == 'get-item'){
-            $itemInfo = $this->select('id', 'name', 'status')
+            $itemInfo = $this->select('id', 'name', 'content', 'status', 'thumb')
+                        ->where('id', $params['id'])
+                        ->first();
+        }
+        if($options['task'] == 'get-thumb'){
+            $itemInfo = $this->select('id', 'thumb')
                         ->where('id', $params['id'])
                         ->first();
         }

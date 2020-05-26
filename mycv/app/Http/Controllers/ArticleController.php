@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CategoryModel as MainModel;
+use App\Models\ArticleModel as MainModel;
 use Illuminate\Support\Facades\View;
-use App\Http\Requests\CategoryRequest as MainRequest;
+use App\Http\Requests\ArticleRequest as MainRequest;
 
-class CategoryController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -17,8 +17,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $pathViewController = 'admin.pages.category.';
-    private $controllerName = 'category';
+    private $pathViewController = 'admin.pages.article.';
+    private $controllerName = 'article';
     private $params;
     private $model;
 
