@@ -102,7 +102,9 @@ Route::group(['prefix' => $prefixAdmin], function () {
         Route::get('change-status-{status}/{id}', 
             ['as' => $controllerName. '/status', 'uses' => $controller . 'status']
         );
-       
+        Route::get('change-type-{type}/{id}', 
+        ['as' => $controllerName. '/type', 'uses' => $controller . 'type']
+    );
     });
 
 });

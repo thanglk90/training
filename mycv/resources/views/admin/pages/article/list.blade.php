@@ -28,12 +28,13 @@ use App\Helper\HighLight as HighLight;
             <thead>
                 <tr class="headings">
                     <th class="column-title">#</th>
-                    <th class="column-title">Name</th>
+                    <th class="column-title">Article info</th>
+                    <th class="column-title">Thumb</th>
+                    <th class="column-title">Category</th>
+                    <th class="column-title">Kiểu bài viết</th>
                     <th class="column-title">Trạng thái</th>
-                    <th class="column-title">Hiển thị ở Home</th>
-                    <th class="column-title">Kiểu hiển thị</th>
-                    <th class="column-title">Tạo mới</th>
-                    <th class="column-title">Chỉnh sửa</th>
+                    {{-- <th class="column-title">Tạo mới</th>
+                    <th class="column-title">Chỉnh sửa</th> --}}
                     <th class="column-title">Hành động</th>
                 </tr>
             </thead>
@@ -44,18 +45,29 @@ use App\Helper\HighLight as HighLight;
                             $index = $key + 1;
                             $id = $value['id'];
                             $name = HighLight::show($value['name'], $params['search'], 'name');
+                            $content = HighLight::show($value['content'], $params['search'], 'content');
+                            $thumb = Template::showItemThumb($controllerName, $value['thumb'], $value['name'] );
+                            $categoryName = $value['category_name'];
+                            $type = Template::showItemSelect($controllerName, $id, $value['type'], 'type');
                             $status = Template::showItemStatus($controllerName, $id, $value['status']);
-                            $createdHistory = Template::showItemHistory($value['created_by'], $value['created']);
-                            $modifiedHistory = Template::showItemHistory($controllerName, $value['modified_by'], $value['modified']);
+                            
+                            // $createdHistory = Template::showItemHistory($value['created_by'], $value['created']);
+                            // $modifiedHistory = Template::showItemHistory($controllerName, $value['modified_by'], $value['modified']);
                             $listBtnAction = Template::showButtonAction($controllerName, $id);
                         @endphp
 
                         <tr class="odd pointer">
                             <td>{{ $index }}</td>
-                            <td width="40%">{!! $name !!}</td>
+                            <td width="30%">
+                                <p><strong>Name:</strong> {!! $name !!}</p>
+                                <p><strong>Content:</strong> {!! $content !!}</p>
+                            </td>
+                            <td width="14%">{!! $thumb !!}</td>
+                            <td>{!! $categoryName !!}</td>
+                            <td>{!! $type !!}</td>
                             <td>{!! $status !!}</td>
-                            <td>{!! $createdHistory !!}</td>
-                            <td>{!! $modifiedHistory !!}</td>
+                            {{-- <td>{!! $createdHistory !!}</td>
+                            <td>{!! $modifiedHistory !!}</td> --}}
                             <td class="last">{!! $listBtnAction !!}</td>
                         </tr>
                     @endforeach

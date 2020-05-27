@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ArticleModel as MainModel;
+use App\Models\CategoryModel as CategoryModel;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\ArticleRequest as MainRequest;
 
@@ -50,9 +51,15 @@ class ArticleController extends Controller
             $item = $this->model->getItem($params, ['task' => 'get-item']);
             
         }
-        
+
+        $categoryModel = new CategoryModel();
+        $itemsCategory = $categoryModel->listItems(null, ['task' => 'admin-list-items-in-selectbox']);
+        echo '<pre>';
+        print_r($itemsCategory);
+        echo '</pre>';
         return view($this->pathViewController . 'form', [
-            'item' => $item
+            'item' => $item,
+            'itemsCategory' => $itemsCategory
         ]);
         
     }
@@ -102,6 +109,16 @@ class ArticleController extends Controller
         $result = $this->model->saveItem($this->params, ['task' => 'change-display']);
         $notify = 'ID ' . $this->params['id'] . ' display';
         $notify .= ' has been changed to ' . $result['display'] . '!!';
+        return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
+    }
+
+    public function type(Request $request){
+       
+        $this->params['currentType'] = $request->type;
+        $this->params['id'] = $request->id;
+        $result = $this->model->saveItem($this->params, ['task' => 'change-type']);
+        $notify = 'ID ' . $this->params['id'] . ' type';
+        $notify .= ' has been changed to ' . $result['type'] . '!!';
         return redirect()->route($this->controllerName)->with('zvn_notify', $notify);
     }
 

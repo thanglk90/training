@@ -34,7 +34,7 @@ class ArticleRequest extends FormRequest
         }
         return [
             'name' => $condName,
-            'description' => 'bail|required|min:5',
+            'content' => 'bail|required|min:5',
             'status' => 'bail|required|in:active,inactive',
             'thumb' => $condThumb
         ];

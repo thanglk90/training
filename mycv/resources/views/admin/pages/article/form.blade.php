@@ -16,6 +16,7 @@
 
     if(!empty($item)){
         $inputHiddenID = Form::hidden('id', $item['id']);
+        $inputHiddenThumb = Form::hidden('thumb_current', $item['thumb']);
 
         $elements = [
             [
@@ -31,12 +32,23 @@
                 'element' => Form::select('status', $statusValue, $item['status'], ['class' => $formInputAttr])
             ],
             [
-                'element' => $inputHiddenID . Form::submit('Lưu lại', ['class' => 'btn btn-success']),
+                'label' => Form::label('category_id', 'Category', ['class' => $formLabelAttr]),
+                'element' => Form::select('category_id', $itemsCategory, $item['category_id'], ['class' => $formInputAttr])
+            ],
+            [
+                'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelAttr]),
+                'element' => Form::file('thumb', ['class' => $formInputAttr]),
+                'thumb' => ( !empty($item['id'])) ? Template::showItemThumb($controllerName, $item['thumb'], $item['name']) : null,
+                'type' => 'thumb'
+            ],
+            [
+                'element' => $inputHiddenID . $inputHiddenThumb . Form::submit('Lưu lại', ['class' => 'btn btn-success']),
                 'type' => 'btn-submit'
             ]
         ];
     } else {
         $inputHiddenID = Form::hidden('id', null);
+        $inputHiddenThumb = Form::hidden('thumb_current', null);
 
         $elements = [
             [
@@ -52,7 +64,17 @@
                 'element' => Form::select('status', $statusValue, null, ['class' => $formInputAttr])
             ],
             [
-                'element' => $inputHiddenID . Form::submit('Lưu lại', ['class' => 'btn btn-success']),
+                'label' => Form::label('category_id', 'Category', ['class' => $formLabelAttr]),
+                'element' => Form::select('category_id', $itemsCategory, null, ['class' => $formInputAttr])
+            ],
+            [
+                'label' => Form::label('thumb', 'Thumb', ['class' => $formLabelAttr]),
+                'element' => Form::file('thumb', ['class' => $formInputAttr]),
+                'thumb' => ( !empty($item['id'])) ? Template::showItemThumb($controllerName, null, null) : null,
+                'type' => 'thumb'
+            ],
+            [
+                'element' => $inputHiddenID . $inputHiddenThumb . Form::submit('Lưu lại', ['class' => 'btn btn-success']),
                 'type' => 'btn-submit'
             ]
         ];

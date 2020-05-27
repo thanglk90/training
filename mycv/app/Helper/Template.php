@@ -15,9 +15,7 @@ class Template {
             $xhtmlField .= sprintf('<li><a href="#" class="select-field" data-field="%s">%s</a></li>',
                                     $field, $tmplField[$field]['name']);
         }
-        // echo '<pre>';
-        // print_r($paramsSearch);
-        // echo '<pre>';
+
         $searchField = (in_array($paramsSearch['field'], $fieldInController[$controllerName])) ? $paramsSearch['field'] : 'all';
 
         $xhtml = sprintf('<div class="input-group">
@@ -132,10 +130,10 @@ class Template {
         return $xhtml;
     }
 
-    public static function showItemSelect($controllerName, $id, $displayValue){
+    public static function showItemSelect($controllerName, $id, $displayValue, $fieldName){
 
-       $link = route($controllerName . '/display', ['display' => 'value_new', 'id' => $id]);
-       $tmplDisplay = Config::get('zvn.template.display');
+       $link = route($controllerName . '/' . $fieldName, [$fieldName => 'value_new', 'id' => $id]);
+       $tmplDisplay = Config::get('zvn.template.' . $fieldName);
        $xhtml = sprintf('<select name="select_change_attr" data-url="%s" class="form-control">', $link);
 
        foreach($tmplDisplay as $key => $value){

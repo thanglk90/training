@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class ArticleModel extends AdminModel
 {
     public function __construct(){
-        $this->table = 'article';
+        $this->table = 'article as a';
         $this->folderUpload = 'article';
         $this->fieldSearchAccepted = ['name','content'];
         $this->crudNotAccepted = ['_token','thumb_current'];
@@ -21,17 +21,18 @@ class ArticleModel extends AdminModel
     public function listItems($params, $options = null){
         $result = '';
         if($options['task'] == 'admin-list-items'){
-            $query = $this->select('id','name','status','content','thumb','created','created_by','modified','modified_by');
+            $query = $this->select('a.id','a.name', 'a.category_id', 'a.type','a.status','a.content','a.thumb','a.created','a.created_by','a.modified','a.modified_by', 'c.name as category_name')
+                          ->leftJoin('category as c', 'a.category_id', '=', 'c.id');
 
             if(isset($params['filter']['status']) && $params['filter']['status'] !== 'all'){
-                $query->where('status', '=', $params['filter']['status']);
+                $query->where('a.status', '=', $params['filter']['status']);
             }
             
             if($params['search']['value'] !== ''){
                 if($params['search']['field'] == 'all'){
                     $query->where(function($query) use ($params){
                         foreach($this->fieldSearchAccepted as $column){
-                            $query->orWhere($column, 'LIKE', "%{$params['search']['value']}%");
+                            $query->orWhere('a.' . $column, 'LIKE', "%{$params['search']['value']}%");
                         }
                     });
 
@@ -45,8 +46,8 @@ class ArticleModel extends AdminModel
         }
 
         if($options['task'] == 'news-list-items'){
-            $query = $this->select('id','name','content','link','thumb')
-                          ->where('status', '=', 'active')
+            $query = $this->select('a.id','a.name','a.content','a.thumb')
+                          ->where('a.status', '=', 'active')
                           ->limit(5);
             $result = $query->get()->toArray();
         }
@@ -97,6 +98,16 @@ class ArticleModel extends AdminModel
             $result = array('status' => $active, 'id' => $params['id']);
         }
 
+        if($options['task'] == 'change-type'){
+
+            $type = $params['currentType'];
+     
+            self::where('id', $params['id'])
+                ->update(['type' => $type]);
+
+            $result = array('type' => $type, 'id' => $params['id']);
+        }
+
         if($options['task'] == 'add-item'){
             
             $params['thumb'] = $this->uploadThumb($params['thumb']);
@@ -144,7 +155,7 @@ class ArticleModel extends AdminModel
 
     public function getItem($params, $options = null){
         if($options['task'] == 'get-item'){
-            $itemInfo = $this->select('id', 'name', 'content', 'status', 'thumb')
+            $itemInfo = $this->select('id', 'name', 'category_id', 'content', 'status', 'thumb')
                         ->where('id', $params['id'])
                         ->first();
         }

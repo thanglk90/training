@@ -46,7 +46,7 @@ use App\Helper\HighLight as HighLight;
                             $name = HighLight::show($value['name'], $params['search'], 'name');
                             $status = Template::showItemStatus($controllerName, $id, $value['status']);
                             $isHome = Template::showItemIsHome($controllerName, $id, $value['is_home']);
-                            $display = Template::showItemSelect($controllerName, $id, $value['display']);
+                            $display = Template::showItemSelect($controllerName, $id, $value['display'], 'display');
                             $createdHistory = Template::showItemHistory($value['created_by'], $value['created']);
                             $modifiedHistory = Template::showItemHistory($controllerName, $value['modified_by'], $value['modified']);
                             $listBtnAction = Template::showButtonAction($controllerName, $id);
