@@ -51,6 +51,16 @@ class ArticleModel extends AdminModel
                           ->limit(5);
             $result = $query->get()->toArray();
         }
+
+        if($options['task'] == 'news-list-items-featured'){
+            $query = $this->select('a.id','a.name','a.content','a.thumb','a.created', 'a.category_id', 'a.type', 'c.name as category_name')
+                          ->leftJoin('category as c', 'a.category_id', '=', 'c.id')
+                          ->where('a.status', '=', 'active')
+                          ->where('a.type', '=', 'featured')
+                          ->orderBy('a.id', 'desc')
+                          ->take(3);
+            $result = $query->get()->toArray();
+        }
         
         return $result;
     }

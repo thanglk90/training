@@ -39,7 +39,7 @@ return [
             'grid' => ['name' => 'Lưới']
         ],
         'type' => [
-            'feature' => ['name' => 'Nổi bật'],
+            'featured' => ['name' => 'Nổi bật'],
             'normal' => ['name' => 'Bình thường']
         ],
         'search' => [
