@@ -30,19 +30,27 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $sliderModel = new SliderModel();
-        $itemsSlider = $sliderModel->listItems(null, ['task' => 'news-list-items']);
-
         $categoryModel = new CategoryModel();
-        $itemsCategory = $categoryModel->listItems(null, ['task' => 'news-list-items-is-home']);
-
         $articleModel = new ArticleModel();
+
+        $itemsSlider = $sliderModel->listItems(null, ['task' => 'news-list-items']);
+        $itemsCategory = $categoryModel->listItems(null, ['task' => 'news-list-items-is-home']);
         $itemsFeatured = $articleModel->listItems(null, ['task' => 'news-list-items-featured']);
+        $itemsLatest = $articleModel->listItems(null, ['task' => 'news-list-items-latest']);
+
+        foreach($itemsCategory as $key => $category){
+            $itemsCategory[$key]['article'] = $articleModel->listItems(['category_id' => $category['id']], ['task' => 'news-list-items-in-category']);
+        }
+        echo '<pre>';
+        print_r($itemsCategory);
+        echo '</pre>';
 
         return view($this->pathViewController . 'index', [
             'params' => $this->params,
             'itemsSlider' => $itemsSlider,
             'itemsCategory' => $itemsCategory,
-            'itemsFeatured' => $itemsFeatured
+            'itemsFeatured' => $itemsFeatured,
+            'itemsLatest' => $itemsLatest
             
             
         ]);

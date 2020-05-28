@@ -61,6 +61,25 @@ class ArticleModel extends AdminModel
                           ->take(3);
             $result = $query->get()->toArray();
         }
+
+        if($options['task'] == 'news-list-items-latest'){
+            $query = $this->select('a.id','a.name','a.content','a.thumb','a.created', 'a.category_id', 'a.type', 'c.name as category_name')
+                          ->leftJoin('category as c', 'a.category_id', '=', 'c.id')
+                          ->where('a.status', '=', 'active')
+                          ->orderBy('a.id', 'desc')
+                          ->take(4);
+            $result = $query->get()->toArray();
+        }
+
+        if($options['task'] == 'news-list-items-in-category'){
+            $query = $this->select('a.id','a.name','a.content','a.thumb','a.created', 'a.category_id', 'a.type', 'c.name as category_name')
+                          ->leftJoin('category as c', 'a.category_id', '=', 'c.id')
+                          ->where('a.status', '=', 'active')
+                          ->where('a.category_id', '=', $params['category_id'])
+                          ->orderBy('a.id', 'desc')
+                          ->take(4);
+            $result = $query->get()->toArray();
+        }
         
         return $result;
     }
